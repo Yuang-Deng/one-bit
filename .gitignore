@@ -1,0 +1,7 @@
+checkpoint
+checkpoint-copy
+index_cifar100
+results
+__pycache__/
+*.py[cod]
+*$py.class
