@@ -160,9 +160,13 @@ def create_data_loaders(train_transformation,
                         args):
     traindir = args.train_subdir
     testdir = args.test_subdir
+    ds = args.dataset
 
     assert_exactly_one([args.exclude_unlabeled, args.labeled_batch_size])
-    dataset = CIFAR100DS(traindir, train=True, transform=train_transformation)
+    if ds == 'cifar10':
+        dataset = CIFAR10DS(traindir, train=True, transform=train_transformation)
+    elif ds == 'cifar100':
+        dataset = CIFAR100DS(traindir, train=True, transform=train_transformation)
 
     dir_path = '/cache/index_cifar100/rand_select/'
     labeled_idxs_initial = read_dataset_initial(dataset, 30)
@@ -197,13 +201,22 @@ def create_data_loaders(train_transformation,
                                                num_workers=args.workers,
                                                pin_memory=True)
 
-    test_loader = torch.utils.data.DataLoader(
-        CIFAR100DS(testdir, train=False, transform=eval_transformation),
-        batch_size=200,
-        shuffle=False,
-        num_workers=2 * args.workers,
-        pin_memory=True,
-        drop_last=False)
+    if ds == 'cifar10':
+        test_loader = torch.utils.data.DataLoader(
+            CIFAR10DS(testdir, train=False, transform=eval_transformation),
+            batch_size=200,
+            shuffle=False,
+            num_workers=2 * args.workers,
+            pin_memory=True,
+            drop_last=False)
+    elif ds == 'cifar100':
+        test_loader = torch.utils.data.DataLoader(
+            CIFAR100DS(testdir, train=False, transform=eval_transformation),
+            batch_size=200,
+            shuffle=False,
+            num_workers=2 * args.workers,
+            pin_memory=True,
+            drop_last=False)
 
     return train_loader, test_loader
 
