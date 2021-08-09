@@ -78,6 +78,7 @@ def create_parser():
                         help='use pre-trained model')
     parser.add_argument('--checkpoint-path', type=str, default='./checkpoint', help='the model saved path')
     parser.add_argument('--best-model-path', type=str, help='the best model saved path')
+    parser.add_argument('--channels', type=int, default=96)
     return parser
 
 

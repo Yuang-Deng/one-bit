@@ -21,6 +21,11 @@ def annotation_parser():
                             ' | '.join(datasets.__all__) +
                             ' (default: imagenet)')
     parser.add_argument('--query-quota', default=47000, type=int)
+    parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet18',
+                        choices=architectures.__all__,
+                        help='model architecture: ' +
+                            ' | '.join(architectures.__all__))
+    parser.add_argument('--channels', type=int, default=96)
     return parser
 
 def read_dataset_initial(dataset, num):
@@ -102,10 +107,10 @@ def one_bit_super_stage2(pred_list, target_list, idx_list, num_query=20000):
     return pred_true, pred_false, false_pred
 
 
-def read_model(checkpoint_path):
+def read_model(checkpoint_path, num_classes=10, arch='cifar_shakeshake26', channels=96):
     #model = resnet50(num_classes=100)
-    model_factory = architectures.__dict__['cifar_shakeshake26']
-    model_params = dict(num_classes=100)
+    model_factory = architectures.__dict__[arch]
+    model_params = dict(num_classes=num_classes, channels=channels)
     model = model_factory(**model_params)
     model = nn.DataParallel(model).cuda()
 
@@ -168,6 +173,8 @@ def main():
     ### read the data
     args = annotation_parser().parse_args()
     ds = args.dataset
+    arch = args.arch
+    channels = args.channels
     num_query = args.query_quota // 2
     if args.dataset == 'cifar10':
         dataset = read_cifar10()
@@ -184,7 +191,12 @@ def main():
     modify_dataset(dataset)
     ### read model
     checkpoint_path = './checkpoint/stage1/best_stage1.ckpt'
-    model = read_model(checkpoint_path)
+    if args.dataset == 'cifar10':
+        model = read_model(checkpoint_path, num_classes=10, arch=arch, channels=channels)
+        dataset = read_cifar10()
+    elif args.dataset == 'cifar100':
+        model = read_model(checkpoint_path, num_classes=100, arch=arch, channels=channels)
+        dataset = read_cifar100()
     #pdb.set_trace()
 
     ### predict the dataset

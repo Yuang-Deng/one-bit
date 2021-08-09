@@ -12,7 +12,9 @@
             "console": "integratedTerminal",
             "args": [
                 "--dataset=cifar100",
-                "--query-quota=3000"
+                "--query-quota=3000",
+                "--arch=wideresnet",
+                "--channels=96",
             ]
         },
         {
@@ -23,7 +25,9 @@
             "console": "integratedTerminal",
             "args": [
                 "--dataset=cifar100",
-                "--query-quota=3000"
+                "--query-quota=3000",
+                "--arch=wideresnet",
+                "--channels=96",
             ]
         },
         {
@@ -46,7 +50,8 @@
                 "--dataset=cifar100",
                 "--consistency=1000",
                 "--consistency-rampup=5",
-                "--logit-distance-cost=0.01"
+                "--logit-distance-cost=0.01",
+                "--channels=96",
             ]
         },
         {
@@ -70,7 +75,7 @@
                 "--consistency=1000",
                 "--consistency-rampup=5",
                 "--logit-distance-cost=0.01",
-                "--resume=C:/Users/Alex/WorkSpace/pycharm/one-bit-supervision/checkpoint/stage1/checkpoint.ckpt"
+                "--channels=96",
             ]
         },
         {
@@ -94,6 +99,7 @@
                 "--consistency=1000",
                 "--consistency-rampup=5",
                 "--logit-distance-cost=0.01",
+                "--channels=96",
             ],
         }
     ]

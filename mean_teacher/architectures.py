@@ -11,17 +11,17 @@ from .utils import export, parameter_count
 
 
 @export
-def cifar_shakeshake26(pretrained=False, **kwargs):
+def cifar_shakeshake26(pretrained=False, channels=96, **kwargs):
     assert not pretrained
     model = ResNet32x32(ShakeShakeBlock,
                         layers=[4, 4, 4],
-                        channels=96,
+                        channels=channels,
                         downsample='shift_conv', **kwargs)
     return model
 
 
 @export
-def resnext152(pretrained=False, **kwargs):
+def resnext152(pretrained=False, channels=96, **kwargs):
     assert not pretrained
     model = ResNet224x224(BottleneckBlock,
                           layers=[3, 8, 36, 3],
@@ -31,12 +31,12 @@ def resnext152(pretrained=False, **kwargs):
     return model
 
 @export
-def wideresnet(pretrained=False, **kwargs):
+def wideresnet(pretrained=False, channels=96, **kwargs):
     assert not pretrained
     depth = 28
     widen_factor = 2
     model = WideResNet(depth=depth,
-                      channels=96,
+                      channels=channels,
                       widen_factor=widen_factor,
                       drop_rate=0,
                       **kwargs)

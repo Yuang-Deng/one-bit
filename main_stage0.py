@@ -68,19 +68,20 @@ def main(context):
     global best_prec1
 
     dirpath = args.checkpoint_path
+    channels = args.channels
     os.makedirs(dirpath, exist_ok=True)
 
     dataset_config = datasets.__dict__[args.dataset]()
     num_classes = dataset_config.pop('num_classes')
     train_loader, eval_loader = create_data_loaders(**dataset_config, args=args)
 
-    def create_model(ema=False):
+    def create_model(ema=False, channels=16):
         LOG.info("=> creating {pretrained}{ema}model '{arch}'".format(
             pretrained='pre-trained ' if args.pretrained else '',
             ema='EMA ' if ema else '',
             arch=args.arch))
         model_factory = architectures.__dict__[args.arch]
-        model_params = dict(pretrained=args.pretrained, num_classes=num_classes)
+        model_params = dict(pretrained=args.pretrained, num_classes=num_classes, channels=channels)
         model = model_factory(**model_params)
 
         model = nn.DataParallel(model).cuda()
@@ -91,8 +92,8 @@ def main(context):
 
         return model
 
-    model = create_model()
-    ema_model = create_model(ema=True)
+    model = create_model(channels=channels)
+    ema_model = create_model(ema=True, channels=channels)
 
     optimizer = torch.optim.SGD(model.parameters(), args.lr,
                                 momentum=args.momentum,
