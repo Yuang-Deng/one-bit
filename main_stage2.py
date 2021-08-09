@@ -168,7 +168,7 @@ def create_data_loaders(train_transformation,
     elif ds == 'cifar100':
         dataset = CIFAR100DS(traindir, train=True, transform=train_transformation)
 
-    dir_path = '/cache/index_cifar100/rand_select/'
+    dir_path = './index_cifar100/rand_select/'
     labeled_idxs_initial = read_dataset_initial(dataset, 30)
     labeled_idxs_stage1 = np.load(dir_path+'pred_true_stage1.npy')
     labeled_idxs_stage2 = np.load(dir_path+'pred_true_stage2.npy')

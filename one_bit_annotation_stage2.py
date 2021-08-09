@@ -183,7 +183,7 @@ def main():
 
     modify_dataset(dataset)
     ### read model
-    checkpoint_path = './checkpoints/stage1/best_stage1.ckpt'
+    checkpoint_path = './checkpoint/stage1/best_stage1.ckpt'
     model = read_model(checkpoint_path)
     #pdb.set_trace()
 
