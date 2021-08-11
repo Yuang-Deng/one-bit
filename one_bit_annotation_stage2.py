@@ -176,9 +176,12 @@ def main():
     arch = args.arch
     channels = args.channels
     num_query = args.query_quota // 2
+    checkpoint_path = './checkpoint/stage1/best_stage1.ckpt'
     if args.dataset == 'cifar10':
+        model = read_model(checkpoint_path, num_classes=10, arch=arch, channels=channels)
         dataset = read_cifar10()
     elif args.dataset == 'cifar100':
+        model = read_model(checkpoint_path, num_classes=100, arch=arch, channels=channels)
         dataset = read_cifar100()
     #dataset = read_dataset()
 
@@ -190,13 +193,6 @@ def main():
 
     modify_dataset(dataset)
     ### read model
-    checkpoint_path = './checkpoint/stage1/best_stage1.ckpt'
-    if args.dataset == 'cifar10':
-        model = read_model(checkpoint_path, num_classes=10, arch=arch, channels=channels)
-        dataset = read_cifar10()
-    elif args.dataset == 'cifar100':
-        model = read_model(checkpoint_path, num_classes=100, arch=arch, channels=channels)
-        dataset = read_cifar100()
     #pdb.set_trace()
 
     ### predict the dataset
