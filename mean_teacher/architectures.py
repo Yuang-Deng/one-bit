@@ -11,11 +11,11 @@ from .utils import export, parameter_count
 
 
 @export
-def cifar_shakeshake26(pretrained=False, channels=96, **kwargs):
+def cifar_shakeshake26(pretrained=False, **kwargs):
     assert not pretrained
     model = ResNet32x32(ShakeShakeBlock,
                         layers=[4, 4, 4],
-                        channels=channels,
+                        # channels=96,
                         downsample='shift_conv', **kwargs)
     return model
 

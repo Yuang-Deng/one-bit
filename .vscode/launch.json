@@ -87,7 +87,7 @@
             "args": [
                 "--train-subdir=C:/Users/Alex/WorkSpace/pycharm/mymoco/datasets",
                 "--test-subdir=C:/Users/Alex/WorkSpace/pycharm/mymoco/datasets",
-                "--arch=wideresnet",
+                "--arch=cifar_shakeshake26",
                 "--labeled-batch-size=50",
                 "-b=512",
                 "--epochs=180",
